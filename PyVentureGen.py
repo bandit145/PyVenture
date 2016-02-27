@@ -17,7 +17,8 @@ def main():
 		start()
 def gen():# generate adventure file
 	file = input('File name? > ')
-	file = file + '.py'
+	if '.py' not in file: #checks if .py file extension is already in file name
+		file = file + '.py'
 	numofsect = input('How many sections do you want? > ')
 	num = 0
 	with open(file,'w+') as f:
@@ -31,14 +32,13 @@ def gen():# generate adventure file
 def start(): #my beginning function
 	basegame()
 def basegame(): 
-	inventory = [] #dict pls
+	inventory = {} #dict pls
 	choices = ['choice0', 'choice1', 'choice2', 'choice3', 'choice4', 'choice5'] #choices, will probably expand
-	inventory = []
 	print ('output')
 	selection = input('> ' )
 	if selection == choices[0]:
 		print('stuff here') #sectioning game into functions, all choices will call a new function segment at some point
-		choice0()
+		choice0(inventory)
 	elif selection == choices[1]:
 		print('output')
 	elif selection == choices[2]:
@@ -49,7 +49,8 @@ def basegame():
 		print('output')
 	elif selection == choices[5]:
 		print('output.')
-	else:
+	else: """#break this into seperate end(): function to be called whenever you die?
+	"""
 		print('output')
 		restart = input('Would you like to continue? y/n > ')
 		if restart == 'y':
@@ -58,12 +59,14 @@ def basegame():
 			print('See you next time!')
 					
 				""") 
+	#Break this into seperate append function so user can come back and add to program
+	#def append():
 	count = 0
 	while num < int(numofsect): #will take number of sections and spit out modularized code (I hope)
 		f = open(file,"a")
 		f.write("""
-		
-def choice"""+str(count)+"""():
+	
+def choice"""+str(count)+"""(inventory"""+str(count)+"""):
 	choices"""+str(count)+""" = ['choice0','choice1','choice2','choice3','choice4','choice5'] #Enter choices user choices here
 	Sel"""+str(count)+""" = input( 'put prompt here')
 	if sel"""+str(count)+"""  == choices"""+str(count)+"""[0]:
@@ -83,7 +86,7 @@ def choice"""+str(count)+"""():
 		print('no recognized input') #loop back?
 			""")#Write the the code thing here
 		num = num + 1
-		count = count +1
+		count = count +1 #per repitition adds value to the ouput code for ease of working in it.
 	f.write('''
 start() ''')
 	f.close
